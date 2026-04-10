@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ลบแคชเดิม -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <title>Employee Login - Spare Parts Request</title>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
@@ -200,21 +205,21 @@
 </head>
 <body>
     <div class="background-blob"></div>
-    
+   
     <div id="loadingOverlay" class="loader-overlay">
         <div class="spinner" style="width: 50px; height: 50px; border-width: 4px;"></div>
-        <p style="margin-top: 20px; color: var(--text-muted)">กำลังเตรียมการ...</p>
+        <p style="margin-top: 20px; color: var(--text-muted)">กำลังเข้าสู่ระบบอัตโนมัติ...</p>
     </div>
-
+    
     <div class="login-container">
         <div class="header">
             <div class="logo">🔑</div>
             <h1>เข้าสู่ระบบ</h1>
             <p class="subtitle">ระบบขอโอนอะไหล่จากคลังนวนคร</p>
         </div>
-        
+       
         <div id="errorBox" class="error-msg"></div>
-        
+       
         <div class="input-group">
             <label for="userId">Username</label>
             <input type="text" id="userId" placeholder="กรอกรหัสพนักงาน" autocomplete="username">
@@ -223,16 +228,15 @@
             <label for="password">Password</label>
             <input type="password" id="password" placeholder="••••" autocomplete="current-password">
         </div>
-        
+       
         <div class="remember-group">
-            <input type="checkbox" id="rememberMe">
+            <input type="checkbox" id="rememberMe" checked>
             <label for="rememberMe">จดจำการเข้าสู่ระบบ</label>
         </div>
-        
+       
         <div class="clear-remember">
             <button type="button" id="clearRememberBtn">ล้างข้อมูลที่จำไว้</button>
         </div>
-
         <button id="loginBtn">
             <span id="btnText">เข้าสู่ระบบ</span>
             <div id="btnSpinner" class="spinner" style="display: none;"></div>
@@ -243,9 +247,8 @@
         const SHEET_ID = '1eqVoLsZxGguEbRCC5rdI4iMVtQ7CK4T3uXRdx8zE3uw';
         const SHEET_NAME = 'Employee_Auth';
         const JSON_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
-        
-        const APP_VERSION = '20260410'; // เปลี่ยนวันที่เมื่ออัพเดทโค้ดครั้งใหญ่
-
+       
+        const APP_VERSION = '20260410';
         const userIdInput = document.getElementById('userId');
         const passwordInput = document.getElementById('password');
         const rememberMeInput = document.getElementById('rememberMe');
@@ -259,39 +262,33 @@
             '0330': 'https://request-nawanakorn-newversion.vercel.app/'
         };
 
-        // ล้างข้อมูลที่จำไว้
+        // ล้างข้อมูลเก่าเมื่อเวอร์ชันเปลี่ยนหรือทุกครั้งที่เปิดหน้า
         clearRememberBtn.addEventListener('click', () => {
             if (confirm('คุณต้องการล้างข้อมูลที่จำไว้ทั้งหมดใช่หรือไม่?')) {
-                localStorage.removeItem('remembered_id');
-                localStorage.removeItem('remember_version');
+                localStorage.clear();
                 userIdInput.value = '';
                 passwordInput.value = '';
-                rememberMeInput.checked = false;
                 alert('✅ ล้างข้อมูลเรียบร้อยแล้ว');
             }
         });
 
-        // Initialize
+        // Initialize + Auto Login ทันทีเมื่อโหลดหน้า
         window.onload = async () => {
-            const savedVersion = localStorage.getItem('remember_version');
+            // ล้าง cache เก่า
+            localStorage.removeItem('remember_version');
+            
             const savedUser = localStorage.getItem('remembered_id');
-
-            if (savedVersion !== APP_VERSION) {
-                // ล้างข้อมูลเก่าเมื่อเวอร์ชันเปลี่ยน
-                localStorage.removeItem('remembered_id');
-                localStorage.removeItem('remember_version');
-            }
-
+            
             if (savedUser) {
                 userIdInput.value = savedUser;
                 passwordInput.value = savedUser.slice(-4);
                 rememberMeInput.checked = true;
-                
-                // พยายาม Auto Login
-                await handleLogin(true);
-            } else {
-                loadingOverlay.classList.add('hidden');
             }
+
+            // Auto Login ทันที
+            setTimeout(() => {
+                handleLogin(true);
+            }, 800); // รอเล็กน้อยให้หน้าโหลดเสร็จ
         };
 
         async function handleLogin(isAuto = false) {
@@ -313,10 +310,9 @@
             setLoading(true);
 
             try {
-                const response = await fetch(JSON_URL);
+                const response = await fetch(JSON_URL + '&t=' + new Date().getTime()); // ป้องกัน cache
                 const text = await response.text();
                 const jsonData = JSON.parse(text.substring(47, text.length - 2));
-
                 const rows = jsonData.table.rows;
                 const cols = jsonData.table.cols;
 
@@ -344,9 +340,6 @@
                     if (rememberMeInput.checked) {
                         localStorage.setItem('remembered_id', userId);
                         localStorage.setItem('remember_version', APP_VERSION);
-                    } else {
-                        localStorage.removeItem('remembered_id');
-                        localStorage.removeItem('remember_version');
                     }
 
                     const targetUrl = REDIRECT_MAP[plant];
@@ -365,12 +358,6 @@
         }
 
         loginBtn.addEventListener('click', () => handleLogin(false));
-
-        [userIdInput, passwordInput].forEach(el => {
-            el.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') handleLogin(false);
-            });
-        });
 
         function showError(msg) {
             errorBox.textContent = msg;
