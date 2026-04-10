@@ -2,8 +2,8 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- ลบแคชเดิม -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- ลบแคชเดิมทุกครั้ง -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -28,31 +28,32 @@
         }
         body {
             background: radial-gradient(circle at top left, #1e293b, #0f172a);
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text-main);
             overflow: hidden;
+            padding: 16px;
         }
         .background-blob {
             position: absolute;
-            width: 500px;
-            height: 500px;
+            width: 600px;
+            height: 600px;
             background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(139, 92, 246, 0.2));
-            filter: blur(100px);
+            filter: blur(120px);
             border-radius: 50%;
             z-index: -1;
-            animation: move-blob 20s infinite alternate;
+            animation: move-blob 25s infinite alternate;
         }
         @keyframes move-blob {
-            from { transform: translate(-10%, -10%); }
-            to { transform: translate(10%, 10%); }
+            from { transform: translate(-15%, -15%); }
+            to { transform: translate(15%, 15%); }
         }
         .login-container {
             width: 100%;
             max-width: 420px;
-            padding: 40px;
+            padding: 32px 24px;
             background: var(--card-bg);
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
@@ -69,24 +70,24 @@
             margin-bottom: 32px;
         }
         .logo {
-            width: 64px;
-            height: 64px;
+            width: 72px;
+            height: 72px;
             background: var(--primary);
-            border-radius: 16px;
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 16px;
-            font-size: 32px;
-            box-shadow: 0 0 20px rgba(37, 99, 235, 0.4);
+            font-size: 36px;
+            box-shadow: 0 0 25px rgba(37, 99, 235, 0.4);
         }
         h1 {
-            font-size: 24px;
+            font-size: 26px;
             font-weight: 600;
             margin-bottom: 8px;
         }
         p.subtitle {
-            font-size: 14px;
+            font-size: 15px;
             color: var(--text-muted);
         }
         .input-group {
@@ -94,14 +95,14 @@
         }
         label {
             display: block;
-            font-size: 14px;
+            font-size: 14.5px;
             margin-bottom: 8px;
             color: var(--text-muted);
         }
         input[type="text"],
         input[type="password"] {
             width: 100%;
-            padding: 12px 16px;
+            padding: 14px 16px;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--glass-border);
             border-radius: 12px;
@@ -112,74 +113,69 @@
         input:focus {
             outline: none;
             border-color: var(--primary);
-            background: rgba(255, 255, 255, 0.07);
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
         }
         .remember-group {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             margin-bottom: 12px;
             user-select: none;
         }
         input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             accent-color: var(--primary);
-            cursor: pointer;
-        }
-        .remember-group label {
-            margin-bottom: 0;
-            cursor: pointer;
         }
         .clear-remember {
             text-align: right;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
         .clear-remember button {
             background: none;
             border: none;
             color: #94a3b8;
-            font-size: 13px;
+            font-size: 13.5px;
             text-decoration: underline;
             cursor: pointer;
         }
         button {
             width: 100%;
-            padding: 14px;
+            padding: 15px;
             background: var(--primary);
             border: none;
             border-radius: 12px;
             color: white;
-            font-size: 16px;
+            font-size: 16.5px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
+            margin-top: 8px;
         }
         button:hover {
             background: var(--primary-hover);
             transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.4);
         }
         .error-msg {
             background: rgba(239, 68, 68, 0.1);
             border-left: 4px solid #ef4444;
             color: #fca5a5;
-            padding: 12px;
+            padding: 12px 14px;
             border-radius: 8px;
             margin-bottom: 20px;
-            font-size: 14px;
+            font-size: 14.5px;
             display: none;
         }
         .spinner {
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-top: 2px solid white;
+            width: 22px;
+            height: 22px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
@@ -201,14 +197,29 @@
             opacity: 0;
             pointer-events: none;
         }
+
+        /* Responsive สำหรับมือถือ */
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 28px 20px;
+                border-radius: 20px;
+            }
+            h1 { font-size: 24px; }
+            .logo { width: 65px; height: 65px; font-size: 32px; }
+            input[type="text"], input[type="password"] {
+                padding: 13px 14px;
+                font-size: 16px;
+            }
+            button { padding: 14px; font-size: 16px; }
+        }
     </style>
 </head>
 <body>
     <div class="background-blob"></div>
    
     <div id="loadingOverlay" class="loader-overlay">
-        <div class="spinner" style="width: 50px; height: 50px; border-width: 4px;"></div>
-        <p style="margin-top: 20px; color: var(--text-muted)">กำลังเข้าสู่ระบบอัตโนมัติ...</p>
+        <div class="spinner" style="width: 55px; height: 55px; border-width: 5px;"></div>
+        <p style="margin-top: 24px; color: var(--text-muted); font-size: 15.5px;">กำลังเข้าสู่ระบบอัตโนมัติ...</p>
     </div>
     
     <div class="login-container">
@@ -262,7 +273,6 @@
             '0330': 'https://request-nawanakorn-newversion.vercel.app/'
         };
 
-        // ล้างข้อมูลเก่าเมื่อเวอร์ชันเปลี่ยนหรือทุกครั้งที่เปิดหน้า
         clearRememberBtn.addEventListener('click', () => {
             if (confirm('คุณต้องการล้างข้อมูลที่จำไว้ทั้งหมดใช่หรือไม่?')) {
                 localStorage.clear();
@@ -272,23 +282,20 @@
             }
         });
 
-        // Initialize + Auto Login ทันทีเมื่อโหลดหน้า
+        // Auto Login + ลบแคชเมื่อเปิดหน้า
         window.onload = async () => {
-            // ล้าง cache เก่า
-            localStorage.removeItem('remember_version');
+            localStorage.removeItem('remember_version'); // ล้างเวอร์ชันเก่า
             
             const savedUser = localStorage.getItem('remembered_id');
-            
             if (savedUser) {
                 userIdInput.value = savedUser;
                 passwordInput.value = savedUser.slice(-4);
-                rememberMeInput.checked = true;
             }
 
             // Auto Login ทันที
             setTimeout(() => {
                 handleLogin(true);
-            }, 800); // รอเล็กน้อยให้หน้าโหลดเสร็จ
+            }, 700);
         };
 
         async function handleLogin(isAuto = false) {
@@ -310,7 +317,7 @@
             setLoading(true);
 
             try {
-                const response = await fetch(JSON_URL + '&t=' + new Date().getTime()); // ป้องกัน cache
+                const response = await fetch(JSON_URL + '&t=' + Date.now());
                 const text = await response.text();
                 const jsonData = JSON.parse(text.substring(47, text.length - 2));
                 const rows = jsonData.table.rows;
@@ -320,23 +327,19 @@
                 const plantIdx = cols.findIndex(c => c.label === 'Plant');
 
                 if (idIdx === -1 || plantIdx === -1) {
-                    showError('โครงสร้างข้อมูลใน Google Sheet ไม่ถูกต้อง');
+                    showError('โครงสร้างข้อมูลไม่ถูกต้อง');
                     setLoading(false);
                     return;
                 }
 
-                const userRow = rows.find(row => {
-                    const value = row.c[idIdx] ? row.c[idIdx].v : '';
-                    return String(value) === userId;
-                });
+                const userRow = rows.find(row => String(row.c[idIdx]?.v || '') === userId);
 
                 if (!userRow) {
                     showError('ไม่พบรหัสพนักงานนี้ในระบบ');
                     setLoading(false);
                 } else {
-                    const plant = String(userRow.c[plantIdx] ? userRow.c[plantIdx].v : '').trim();
+                    const plant = String(userRow.c[plantIdx]?.v || '').trim();
 
-                    // จดจำข้อมูล
                     if (rememberMeInput.checked) {
                         localStorage.setItem('remembered_id', userId);
                         localStorage.setItem('remember_version', APP_VERSION);
@@ -346,13 +349,13 @@
                     if (targetUrl) {
                         window.location.href = targetUrl;
                     } else {
-                        showError(`รหัส Plant (${plant}) ของท่านไม่มีสิทธิ์เข้าถึงระบบนี้`);
+                        showError(`Plant ${plant} ไม่มีสิทธิ์ใช้งานระบบนี้`);
                         setLoading(false);
                     }
                 }
             } catch (err) {
                 console.error(err);
-                showError('เกิดข้อผิดพลาดในการเชื่อมต่อกับฐานข้อมูล');
+                showError('เชื่อมต่อฐานข้อมูลล้มเหลว กรุณาลองใหม่');
                 setLoading(false);
             }
         }
@@ -368,7 +371,6 @@
             loginBtn.disabled = isLoading;
             document.getElementById('btnText').style.display = isLoading ? 'none' : 'inline';
             document.getElementById('btnSpinner').style.display = isLoading ? 'block' : 'none';
-            if (isLoading) errorBox.style.display = 'none';
         }
     </script>
 </body>
